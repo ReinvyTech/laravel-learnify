@@ -1,14 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\Services\EmailVerificationService;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
+
+    public function __construct(protected EmailVerificationService $emailVerificationService) {}
+
     public function register(RegisterRequest $request)
     {
         $user = User::create([
@@ -18,6 +22,7 @@ class AuthController extends Controller
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
+        $this->emailVerificationService->sendVerificationlink($user);
 
         return response()->json([
             'message' => 'User registered successfully',
@@ -37,6 +42,7 @@ class AuthController extends Controller
         }
 
         $user = User::where('email', $request->email)->firstOrFail();
+
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
