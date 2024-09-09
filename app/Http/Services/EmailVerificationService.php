@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Services;
 
 use App\Models\EmailVerificationToken;
 use App\Models\User;
-use App\Notifications\EmailVerification;
+use App\Notifications\EmailVerificationNotification;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 
@@ -12,7 +12,7 @@ class EmailVerificationService
 {
     public function sendVerificationlink(object $user): void
     {
-        Notification::send($user, new EmailVerification($this->generateVerificationLink($user['email'])));
+        Notification::send($user, new EmailVerificationNotification($this->generateVerificationLink($user['email'])));
     }
 
     public function resendLink($email)

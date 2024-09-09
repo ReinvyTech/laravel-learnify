@@ -10,8 +10,6 @@ use Laravel\Socialite\Facades\Socialite;
 
 class SocialLoginController extends Controller
 {
-
-
     public function toProvider($driver)
     {
         return response()->json([
@@ -21,40 +19,29 @@ class SocialLoginController extends Controller
 
     public function handleCallback($driver)
     {
-        $user = Socialite::driver($driver)->stateless()->user();
+        $socialUser = Socialite::driver($driver)->stateless()->user();
 
-        $userAccount = SocialLogin::where('provider', $driver)->where('provider_id', $user->getId())->first();
+        $userAccount = SocialLogin::firstOrNew([
+            'provider' => $driver,
+            'provider_id' => $socialUser->getId(),
+        ]);
 
-        if ($userAccount) {
-            $dbUser = $userAccount->user;
-        } else {
-            $dbUser = User::where('email', $user->getEmail())->first();
+        $dbUser = $userAccount->user ?? User::firstOrNew(['email' => $socialUser->getEmail()]);
 
-            if (!$dbUser) {
-                $dbUser = User::create([
-                    'profilepict' => $user->getAvatar(),
-                    'username' => $user->getNickname(),
-                    'name' => $user->getName(),
-                    'email' => $user->getEmail(),
-                    'email_verified_at' => now(),
-                    'password' => null
-                ]);
-            } else {
-                // Jika pengguna ditemukan tetapi belum diverifikasi, verifikasi emailnya
-                if (is_null($dbUser->email_verified_at)) {
-                    $dbUser->email_verified_at = now();
-                    $dbUser->save();
-                }
-            }
-
-            SocialLogin::create([
-                'provider' => $driver,
-                'provider_id' => $user->getId(),
-                'user_id' => $dbUser->id,
-            ]);
+        if (!$dbUser->exists) {
+            $dbUser->fill([
+                'profilepict' => $socialUser->getAvatar(),
+                'username' => $socialUser->getNickname(),
+                'name' => $socialUser->getName(),
+                'email_verified_at' => now(),
+            ])->save();
         }
 
-        $dbUser->markEmailAsVerified();
+        if (is_null($dbUser->email_verified_at)) {
+            $dbUser->markEmailAsVerified();
+        }
+
+        $userAccount->user()->associate($dbUser)->save();
 
         auth()->login($dbUser);
 
