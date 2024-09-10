@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Services;
 
 use App\Models\EmailVerificationToken;
-use App\Models\StudentUser;
+use App\Models\User;
 use App\Notifications\EmailVerificationNotification;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 
-class EmailVerificationService
+class AdminEmailVerificationService
 {
     public function sendVerificationlink(object $user): void
     {
@@ -17,7 +17,7 @@ class EmailVerificationService
 
     public function resendLink($email)
     {
-        $user = StudentUser::where('email', $email)->first();
+        $user = User::where('email', $email)->first();
 
         $this->sendVerificationlink($user);
         return response()->json([
@@ -41,7 +41,7 @@ class EmailVerificationService
 
     public function verifyEmail(string $email, string $token)
     {
-        $user = StudentUser::where('email', $email)->first();
+        $user = User::where('email', $email)->first();
 
         if ($user->email_verified_at) {
             return 'already_verified';

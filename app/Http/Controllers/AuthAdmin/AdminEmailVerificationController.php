@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Services\EmailVerificationService;
-use App\Models\StudentUser;
+use App\Http\Controllers\Services\AdminEmailVerificationService;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class EmailVerificationController extends Controller
+class AdminEmailVerificationController extends Controller
 {
     public function __construct(
-        protected EmailVerificationService $emailVerificationService,
+        protected AdminEmailVerificationService $emailVerificationService,
     ) {}
 
     public function verifiedSuccess($email, $token)
@@ -47,7 +47,7 @@ class EmailVerificationController extends Controller
 
     public function checkVerify(Request $request)
     {
-        $user = StudentUser::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->first();
 
         if ($user && $user->email_verified_at) {
             return response()->json([

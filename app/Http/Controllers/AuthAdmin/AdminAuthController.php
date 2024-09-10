@@ -1,31 +1,33 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\AuthAdmin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Services\EmailVerificationService;
+use App\Http\Controllers\Services\AdminEmailVerificationService;
 use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\AdminRegisterRequest;
 use App\Models\StudentUser;
+use App\Models\User;
 
-class AuthController extends Controller
+class AdminAuthController extends Controller
 {
 
-    public function __construct(protected EmailVerificationService $emailVerificationService) {}
+    public function __construct(protected AdminEmailVerificationService $adminEmailVerificationService) {}
 
-    public function register(RegisterRequest $request)
+    public function register(AdminRegisterRequest $request)
     {
-        $user = StudentUser::create([
+        $user = User::create([
             'name' => $request->name,
+            'role' => $request->role,
             'email' => $request->email,
-            'password' => $request->password
+            'password' => bcrypt($request->password)
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
-        $this->emailVerificationService->sendVerificationlink($user);
+        $this->adminEmailVerificationService->sendVerificationlink($user);
 
         return response()->json([
-            'message' => 'StudentUser registered successfully',
+            'message' => 'User registered successfully',
             'access_token' => $token,
             'data' => $user,
         ]);
@@ -41,7 +43,7 @@ class AuthController extends Controller
             ]);
         }
 
-        $user = StudentUser::where('email', $request->email)->firstOrFail();
+        $user = User::where('email', $request->email)->firstOrFail();
 
 
         $token = $user->createToken('auth_token')->plainTextToken;
@@ -57,6 +59,24 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Get data success',
             'data' => auth()->user(),
+        ]);
+    }
+
+    public function students()
+    {
+        $student =  StudentUser::all();
+        return response()->json([
+            'message' => 'Get data success',
+            'data' => $student,
+        ]);
+    }
+
+    public function teachers()
+    {
+        $teachers = User::where('role', 'teacher')->get();
+        return response()->json([
+            'message' => 'Get data success',
+            'data' => $teachers,
         ]);
     }
 

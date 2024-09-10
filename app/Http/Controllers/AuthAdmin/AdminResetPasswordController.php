@@ -3,19 +3,19 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Services\ResetPasswordService;
-use App\Models\StudentUser;
+use App\Http\Controllers\Services\AdminResetPasswordService;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class AdminResetPasswordController extends Controller
+class ResetPasswordController extends Controller
 {
     public function __construct(
-        protected ResetPasswordService $resetPasswordService,
+        protected AdminResetPasswordService $resetPasswordService,
     ) {}
 
     public function sendCodeLink(Request $request)
     {
-        $user = StudentUser::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->first();
 
         if ($user) {
             $this->resetPasswordService->sendVerificationlink($user);
