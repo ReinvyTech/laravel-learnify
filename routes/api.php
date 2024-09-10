@@ -11,7 +11,7 @@ use App\Http\Controllers\Auth\UserChangeController;
 use App\Http\Controllers\AuthAdmin\AdminAuthController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('/admin')->group(function () {
+Route::prefix('admin')->group(function () {
     Route::post('/register', [AdminAuthController::class, 'register'])->name('adminlogin');
     Route::post('/login', [AdminAuthController::class, 'login'])->name('adminregister');
 
