@@ -12,25 +12,25 @@ use App\Http\Controllers\AuthAdmin\AdminAuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->group(function () {
-    Route::post('/register', [AdminAuthController::class, 'register'])->name('adminlogin');
-    Route::post('/login', [AdminAuthController::class, 'login'])->name('adminregister');
+    Route::post('/register', [AdminAuthController::class, 'register'])->name('adminLogin');
+    Route::post('/login', [AdminAuthController::class, 'login'])->name('adminRegister');
 
     Route::get('/success={email}&{token}', [AdminEmailVerificationController::class, 'verifiedSuccess']);
-    Route::post('/resend_email', [AdminEmailVerificationController::class, 'resendEmailVerificationLink'])->name('adminresendEmailVerificationLink');
-    Route::post('/check_verify_email', [AdminEmailVerificationController::class, 'checkVerify'])->name('admincheckVerify');
+    Route::post('/resend_email', [AdminEmailVerificationController::class, 'resendEmailVerificationLink'])->name('adminResendEmailVerificationLink');
+    Route::post('/check_verify_email', [AdminEmailVerificationController::class, 'checkVerify'])->name('adminCheckVerify');
 
-    Route::post('/send_reset_code', [AdminResetPasswordController::class, 'sendCodeLink'])->name('adminsendCodeLink');
-    Route::post('/check_code_verify', [AdminResetPasswordController::class, 'checkCodeVerify'])->name('admincheckCodeVerify');
-    Route::post('/reset', [AdminResetPasswordController::class, 'resetPassword'])->name('adminresetPassword');
+    Route::post('/send_reset_code', [AdminResetPasswordController::class, 'sendCodeLink'])->name('adminSendCodeLink');
+    Route::post('/check_code_verify', [AdminResetPasswordController::class, 'checkCodeVerify'])->name('adminCheckCodeVerify');
+    Route::post('/reset', [AdminResetPasswordController::class, 'resetPassword'])->name('adminResetPassword');
 
     Route::middleware('auth:sanctum')->group(function () {
-        Route::post('/change_password', [AdminUserChangeController::class, 'changeUserPassword'])->name('adminchangeUserPassword');
-        Route::post('/update_name', [AdminUserChangeController::class, 'changeName'])->name('adminchangeName');
+        Route::post('/change_password', [AdminUserChangeController::class, 'changeUserPassword'])->name('adminChangeUserPassword');
+        Route::post('/update_name', [AdminUserChangeController::class, 'changeName'])->name('adminChangeName');
 
-        Route::get('/all_students', [AdminAuthController::class, 'students'])->name('adminstudents');
-        Route::get('/all_teachers', [AdminAuthController::class, 'teachers'])->name('adminteachers');
-        Route::get('/profile', [AdminAuthController::class, 'profile'])->name('adminprofile');
-        Route::post('/logout', [AdminAuthController::class, 'logout'])->name('adminlogout');
+        Route::get('/all_students', [AdminAuthController::class, 'students'])->name('adminStudents');
+        Route::get('/all_teachers', [AdminAuthController::class, 'teachers'])->name('adminTeachers');
+        Route::get('/profile', [AdminAuthController::class, 'profile'])->name('adminProfile');
+        Route::post('/logout', [AdminAuthController::class, 'logout'])->name('adminLogout');
     });
 });
 
