@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\AuthAdmin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Services\AdminResetPasswordService;
+use App\Services\AdminResetPasswordService;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class ResetPasswordController extends Controller
+class AdminResetPasswordController extends Controller
 {
     public function __construct(
         protected AdminResetPasswordService $resetPasswordService,

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Services;
+namespace App\Services;
 
 use App\Models\EmailVerificationToken;
 use App\Models\User;
@@ -67,7 +67,7 @@ class AdminEmailVerificationService
         }
 
         $token = Str::uuid();
-        $url = config('app.url') . "/api/success=" . $email . "&" . $token;
+        $url = config('app.url') . "/api/admin/success=" . $email . "&" . $token;
         $saveToken = EmailVerificationToken::create([
             "email" => $email,
             "token" => $token,

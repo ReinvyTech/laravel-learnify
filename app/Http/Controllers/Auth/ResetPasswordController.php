@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Services\ResetPasswordService;
+use App\Services\ResetPasswordService;
 use App\Models\StudentUser;
 use Illuminate\Http\Request;
 
-class AdminResetPasswordController extends Controller
+class ResetPasswordController extends Controller
 {
     public function __construct(
         protected ResetPasswordService $resetPasswordService,

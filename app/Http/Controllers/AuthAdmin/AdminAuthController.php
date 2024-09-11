@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\AuthAdmin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Services\AdminEmailVerificationService;
+use App\Services\AdminEmailVerificationService;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\AdminRegisterRequest;
 use App\Models\StudentUser;
@@ -11,7 +11,6 @@ use App\Models\User;
 
 class AdminAuthController extends Controller
 {
-
     public function __construct(protected AdminEmailVerificationService $adminEmailVerificationService) {}
 
     public function register(AdminRegisterRequest $request)
@@ -20,7 +19,7 @@ class AdminAuthController extends Controller
             'name' => $request->name,
             'role' => $request->role,
             'email' => $request->email,
-            'password' => bcrypt($request->password)
+            'password' => $request->password
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;

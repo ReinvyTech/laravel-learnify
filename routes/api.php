@@ -1,19 +1,19 @@
 <?php
 
-use App\Http\Controllers\Auth\AdminEmailVerificationController;
-use App\Http\Controllers\Auth\AdminResetPasswordController;
-use App\Http\Controllers\Auth\AdminUserChangeController;
+use App\Http\Controllers\AuthAdmin\AdminEmailVerificationController;
+use App\Http\Controllers\AuthAdmin\AdminResetPasswordController;
+use App\Http\Controllers\AuthAdmin\AdminUserChangeController;
+use App\Http\Controllers\AuthAdmin\AdminAuthController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\Auth\UserChangeController;
-use App\Http\Controllers\AuthAdmin\AdminAuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->group(function () {
-    Route::post('/register', [AdminAuthController::class, 'register'])->name('adminLogin');
-    Route::post('/login', [AdminAuthController::class, 'login'])->name('adminRegister');
+    Route::post('/register', [AdminAuthController::class, 'register'])->name('adminRegister');
+    Route::post('/login', [AdminAuthController::class, 'login'])->name('adminLogin');
 
     Route::get('/success={email}&{token}', [AdminEmailVerificationController::class, 'verifiedSuccess']);
     Route::post('/resend_email', [AdminEmailVerificationController::class, 'resendEmailVerificationLink'])->name('adminResendEmailVerificationLink');
@@ -34,8 +34,8 @@ Route::prefix('admin')->group(function () {
     });
 });
 
-Route::post('/register', [AuthController::class, 'register'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('register');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::get('/success={email}&{token}', [EmailVerificationController::class, 'verifiedSuccess']);
 Route::post('/resend_email', [EmailVerificationController::class, 'resendEmailVerificationLink'])->name('resendEmailVerificationLink');

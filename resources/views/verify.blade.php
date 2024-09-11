@@ -15,12 +15,12 @@
                     <h2>Email Verification Status</h2>
                 </div>
                 <div class="card-body">
-                    @if ($status === 'success')
+                    @if ($message === 'success')
                         <div class="status success">
                             <h1>Congratulations!</h1>
                             <p>Your email has been successfully verified.</p>
                         </div>
-                    @elseif ($status === 'token_expired')
+                    @elseif ($message === 'token_expired')
                         <div class="status expired">
                             <h1>Token Expired</h1>
                             <p>Your verification token has expired. Please resend the verification email.</p>
@@ -32,12 +32,12 @@
                             <div id="alertMessage" class="alert" style="display: none;">Verification email resent.
                                 Please check your inbox.</div>
                         </div>
-                    @elseif ($status === 'already_verified')
+                    @elseif ($message === 'already_verified')
                         <div class="status already-verified">
                             <h1>Email Already Verified</h1>
                             <p>Your email has already been verified. Thank you!</p>
                         </div>
-                    @elseif ($status === 'invalid')
+                    @elseif ($message === 'invalid')
                         <div class="status invalid">
                             <h1>Invalid Token</h1>
                             <p>The token provided is invalid. Please check the link in your email and try again.</p>

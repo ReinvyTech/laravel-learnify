@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\AuthAdmin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Services\AdminEmailVerificationService;
+use App\Services\AdminEmailVerificationService;
 use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdminEmailVerificationController extends Controller
 {
     public function __construct(
-        protected AdminEmailVerificationService $emailVerificationService,
+        protected AdminEmailVerificationService $adminEmailVerificationService,
     ) {}
 
     public function verifiedSuccess($email, $token)
     {
-        $verificationStatus = $this->emailVerificationService->verifyEmail($email, $token);
+        $verificationStatus = $this->adminEmailVerificationService->verifyEmail($email, $token);
 
         switch ($verificationStatus) {
             case 'success':
@@ -42,7 +42,7 @@ class AdminEmailVerificationController extends Controller
 
     public function resendEmailVerificationLink(Request $request)
     {
-        return $this->emailVerificationService->resendLink($request['email']);
+        return $this->adminEmailVerificationService->resendLink($request['email']);
     }
 
     public function checkVerify(Request $request)

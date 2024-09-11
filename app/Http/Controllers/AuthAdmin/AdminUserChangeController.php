@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\AuthAdmin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Services\NameService;
-use App\Http\Controllers\Services\PasswordService;
+use App\Services\NameService;
+use App\Services\PasswordService;
 use Illuminate\Http\Request;
 
 class AdminUserChangeController extends Controller

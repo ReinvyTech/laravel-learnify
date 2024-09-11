@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Services;
+namespace App\Services;
 
 use Illuminate\Support\Facades\Hash;
 

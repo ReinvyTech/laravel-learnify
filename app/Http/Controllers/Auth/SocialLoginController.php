@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Services\TokenService;
 use App\Models\SocialLogin;
 use App\Models\StudentUser;
 use Laravel\Socialite\Facades\Socialite;

@@ -31,7 +31,7 @@ class AdminRegisterRequest extends FormRequest
         ];
 
         if ($this->role === 'admin') {
-            $rules['isAdminCode'] = 'required|string|in:Ler';
+            $rules['isAdminCode'] = 'required|string|in:learnify2024admin';
         }
 
         return $rules;

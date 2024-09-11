@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Services\EmailVerificationService;
+use App\Services\EmailVerificationService;
 use App\Models\StudentUser;
 use Illuminate\Http\Request;
 
