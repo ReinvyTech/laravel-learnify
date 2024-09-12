@@ -20,7 +20,7 @@ class PasswordService
     {
         $this->validateCurrentPassword($data);
         $updatePassword = auth()->user()->update([
-            'password' => Hash::make($data['password'])
+            'password' => bcrypt($data['password'])
         ]);
 
         if ($updatePassword) {
