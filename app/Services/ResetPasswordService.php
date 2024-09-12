@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Models\RefreshToken;
 use App\Models\ResetPassword;
-use App\Models\StudentUser;
+use App\Models\User;
 use App\Notifications\ResetPasswordNotification;
 use Illuminate\Support\Facades\Notification;
 
@@ -42,7 +42,7 @@ class ResetPasswordService
     public function resetPass($data)
     {
         $check = ResetPassword::where('email', $data['email'])->first();
-        $user = StudentUser::where('email', $data['email'])->first();
+        $user = User::where('email', $data['email'])->first();
 
         if (!$check || !$user) {
             return response()->json([
@@ -77,7 +77,7 @@ class ResetPasswordService
             "email" => $email,
             "code" => $code,
             "reset" => false,
-            "expired_at" => now()->addMinutes(1),
+            "expired_at" => now()->addMinutes(10),
         ]);
 
         if ($saveToken) {

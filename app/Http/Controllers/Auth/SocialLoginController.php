@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\SocialLogin;
-use App\Models\StudentUser;
+use App\Models\User;
 use Laravel\Socialite\Facades\Socialite;
 
 class SocialLoginController extends Controller
@@ -25,13 +25,12 @@ class SocialLoginController extends Controller
             'provider_id' => $socialUser->getId(),
         ]);
 
-        $dbUser = $userAccount->user ?? StudentUser::firstOrNew(['email' => $socialUser->getEmail()]);
+        $dbUser = $userAccount->user ?? User::firstOrNew(['email' => $socialUser->getEmail()]);
 
         if (!$dbUser->exists) {
             $dbUser->fill([
-                'profilepict' => $socialUser->getAvatar(),
-                'username' => $socialUser->getNickname(),
                 'name' => $socialUser->getName(),
+                'role' => 'student',
                 'email_verified_at' => now(),
             ])->save();
         }
