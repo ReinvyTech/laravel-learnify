@@ -15,7 +15,7 @@ class ResetPasswordController extends Controller
 
     public function sendCodeLink(Request $request)
     {
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request['email'])->first();
 
         if ($user) {
             $this->resetPasswordService->sendVerificationlink($user);

@@ -22,10 +22,10 @@ class AuthController extends Controller
         } else {
 
             $user = User::create([
-                'name' => $request->name,
+                'name' => $request['name'],
                 'role' => 'admin',
-                'email' => $request->email,
-                'password' => $request->password
+                'email' => $request['email'],
+                'password' => $request['password']
             ]);
 
             $token = $user->createToken('auth_token')->plainTextToken;
@@ -48,10 +48,10 @@ class AuthController extends Controller
         } else {
 
             $user = User::create([
-                'name' => $request->name,
+                'name' => $request['name'],
                 'role' => 'teacher',
-                'email' => $request->email,
-                'password' => $request->password
+                'email' => $request['email'],
+                'password' => $request['password']
             ]);
 
             $token = $user->createToken('auth_token')->plainTextToken;
@@ -68,10 +68,10 @@ class AuthController extends Controller
     public function studentRegister(RegisterRequest $request)
     {
         $user = User::create([
-            'name' => $request->name,
+            'name' => $request['name'],
             'role' => 'student',
-            'email' => $request->email,
-            'password' => $request->password
+            'email' => $request['email'],
+            'password' => $request['password']
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;

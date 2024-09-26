@@ -33,13 +33,14 @@ class RegisterRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Nama wajib diisi',
-            'email.required' => 'Email wajib diisi',
-            'email.email' => 'Email tidak valid',
-            'email.unique' => 'Email sudah terdaftar',
-            'password.required' => 'Password wajib diisi',
-            'password.min' => 'Password harus terdiri dari minimal 8 karakter',
-            'password.confirmed' => 'Konfirmasi password tidak cocok',
+            'name.required' => 'The name is required.',
+            'email.required' => 'The email is required.',
+            'email.email' => 'The email is not valid.',
+            'email.unique' => 'The email is already registered.',
+            'password.required' => 'The password is required.',
+            'password.min' => 'The password must be at least 8 characters long.',
+            'password.confirmed' => 'The password confirmation does not match.',
+
         ];
     }
 
