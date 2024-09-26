@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Services\EmailVerificationService;
-use App\Models\StudentUser;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class EmailVerificationController extends Controller
@@ -47,7 +47,7 @@ class EmailVerificationController extends Controller
 
     public function checkVerify(Request $request)
     {
-        $user = StudentUser::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->first();
 
         if ($user && $user->email_verified_at) {
             return response()->json([

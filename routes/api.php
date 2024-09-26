@@ -6,7 +6,14 @@ use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\Auth\UserChangeController;
+use App\Http\Controllers\ClassPrograms\LessonController;
 use Illuminate\Support\Facades\Route;
+
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
 
 Route::prefix('admin')->group(function () {
     Route::post('/register', [AuthController::class, 'adminRegister'])->name('adminRegister');
@@ -37,8 +44,21 @@ Route::prefix('teacher')->group(function () {
     });
 });
 
-Route::post('/register', [AuthController::class, 'studentRegister'])->name('studentRegister');
-Route::post('/login', [AuthController::class, 'login'])->name('studentLogin');
+Route::prefix('student')->group(function () {
+    Route::post('/register', [AuthController::class, 'studentRegister'])->name('studentRegister');
+    Route::post('/login', [AuthController::class, 'login'])->name('studentLogin');
+
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('/change_password', [UserChangeController::class, 'changeUserPassword'])->name('studentChangeUserPassword');
+        Route::post('/update_name', [UserChangeController::class, 'changeName'])->name('studentChangeName');
+
+        Route::get('/profile', [AuthController::class, 'profile'])->name('studentProfile');
+        Route::post('/logout', [AuthController::class, 'logout'])->name('studentLogout');
+    });
+});
+
+Route::get('/auth/{driver}', [SocialLoginController::class, 'toProvider'])->where('driver', 'github|google|facebook');
+Route::get('/callback/{driver}/login', [SocialLoginController::class, 'handleCallback'])->where('driver', 'github|google|facebook');
 
 Route::get('/success={email}&{token}', [EmailVerificationController::class, 'verifiedSuccess']);
 Route::post('/resend_email', [EmailVerificationController::class, 'emailVerificationLink'])->name('resendEmailVerificationLink');
@@ -48,13 +68,10 @@ Route::post('/send_reset_code', [ResetPasswordController::class, 'sendCodeLink']
 Route::post('/check_code_verify', [ResetPasswordController::class, 'checkCodeVerify'])->name('checkCodeVerify');
 Route::post('/reset', [ResetPasswordController::class, 'resetPassword'])->name('resetPassword');
 
-Route::get('/auth/{driver}', [SocialLoginController::class, 'toProvider'])->where('driver', 'github|google|facebook');
-Route::get('/callback/{driver}/login', [SocialLoginController::class, 'handleCallback'])->where('driver', 'github|google|facebook');
-
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/change_password', [UserChangeController::class, 'changeUserPassword'])->name('studentChangeUserPassword');
-    Route::post('/update_name', [UserChangeController::class, 'changeName'])->name('studentChangeName');
-
-    Route::get('/profile', [AuthController::class, 'profile'])->name('studentProfile');
-    Route::post('/logout', [AuthController::class, 'logout'])->name('studentLogout');
+    Route::resources([
+        'lessons' => LessonController::class,
+    ]);
 });
+
+Route::get('/all_teachers', [AuthController::class, 'teachers'])->name('teachers');
